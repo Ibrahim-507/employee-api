@@ -1,4 +1,4 @@
-# Employee API
+﻿# Employee API
 
 A layered FastAPI service with PostgreSQL, run by Docker Compose.
 
@@ -85,13 +85,13 @@ pytest
 
 **Decision: an employee can have many roles** (many-to-many through the `employee_roles` table).
 
-Reason: *(rewrite this in your own words before submitting)* real people hold more than
-one role at once, for example "Developer" and "Team Lead", or someone covering for
-another team. A single `role_id` column would force us to pick one and lose the rest.
-With a separate `employee_roles` table, adding a second role is just one new row, and no
-table changes are needed later when payroll or leave needs to look at all roles.
-The trade-off is one extra table and a slightly more complex query. Teams that need
-exactly one "main" role can add an `is_primary` flag to `employee_roles` later.
+Reason: In a real company one person can do more than one job. For example, a
+developer can also be a team lead. If we stored only one role in the employees
+table, we would lose the second role. So I used a separate table called
+`employee_roles` that links employees and roles. Now one employee can have many
+roles, and one role can belong to many employees. The only extra cost is one more
+table to join. If a team needs exactly one "main" role, an `is_primary` flag can be
+added to `employee_roles` later.
 
 ### Soft delete
 Employees and departments have `is_active`. We mark them inactive instead of erasing
