@@ -1,0 +1,12 @@
+[
+  {"id": 1,  "first_name": "Aarav",   "last_name": "Kumar",    "email": "aarav.kumar@example.com",   "department": "Engineering", "job_title": "Backend Developer",  "hire_date": "2022-03-14", "status": "active"},
+  {"id": 2,  "first_name": "Priya",   "last_name": "Sharma",   "email": "priya.sharma@example.com",  "department": "Engineering", "job_title": "Frontend Developer", "hire_date": "2021-07-01", "status": "active"},
+  {"id": 3,  "first_name": "Rahul",   "last_name": "Verma",    "email": "rahul.verma@example.com",   "department": "Design",      "job_title": "CAD Engineer",       "hire_date": "2020-11-23", "status": "active"},
+  {"id": 4,  "first_name": "Sneha",   "last_name": "Iyer",     "email": "sneha.iyer@example.com",    "department": "HR",          "job_title": "HR Manager",         "hire_date": "2019-05-06", "status": "active"},
+  {"id": 5,  "first_name": "Karthik", "last_name": "Raman",    "email": "karthik.raman@example.com", "department": "Finance",     "job_title": "Accountant",         "hire_date": "2023-01-16", "status": "active"},
+  {"id": 6,  "first_name": "Divya",   "last_name": "Nair",     "email": "divya.nair@example.com",    "department": "Engineering", "job_title": "QA Engineer",        "hire_date": "2022-09-12", "status": "on_leave"},
+  {"id": 7,  "first_name": "Mohan",   "last_name": "Das",      "email": "mohan.das@example.com",     "department": "Sales",       "job_title": "Sales Executive",    "hire_date": "2021-02-22", "status": "active"},
+  {"id": 8,  "first_name": "Lakshmi", "last_name": "Menon",    "email": "lakshmi.menon@example.com", "department": "Design",      "job_title": "UI Designer",        "hire_date": "2023-06-05", "status": "active"},
+  {"id": 9,  "first_name": "Arjun",   "last_name": "Reddy",    "email": "arjun.reddy@example.com",   "department": "Engineering", "job_title": "DevOps Engineer",    "hire_date": "2018-10-29", "status": "inactive"},
+  {"id": 10, "first_name": "Fatima",  "last_name": "Begum",    "email": "fatima.begum@example.com",  "department": "Finance",     "job_title": "Finance Analyst",    "hire_date": "2024-04-01", "status": "active"}
+]
