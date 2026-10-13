@@ -5,10 +5,13 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /code
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+COPY requirements.txt requirements-dev.txt ./
+RUN pip install --no-cache-dir -r requirements-dev.txt
 
 COPY app ./app
+COPY alembic ./alembic
+COPY alembic.ini pytest.ini ./
+COPY tests ./tests
 
 EXPOSE 8000
 CMD uvicorn app.main:app --host 0.0.0.0 --port 8000
