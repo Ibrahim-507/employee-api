@@ -62,3 +62,17 @@ def session(engine):
     session.close()
     transaction.rollback()
     connection.close()
+
+
+@pytest.fixture
+def client(session):
+    """A test client whose requests use the rolled-back test session."""
+    from fastapi.testclient import TestClient
+
+    from app.db.session import get_db
+    from app.main import app
+
+    app.dependency_overrides[get_db] = lambda: session
+    with TestClient(app, raise_server_exceptions=False) as test_client:
+        yield test_client
+    app.dependency_overrides.clear()

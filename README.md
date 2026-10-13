@@ -1,4 +1,4 @@
-﻿# Employee API
+# Employee API
 
 A layered FastAPI service with PostgreSQL, run by Docker Compose.
 
@@ -85,13 +85,13 @@ pytest
 
 **Decision: an employee can have many roles** (many-to-many through the `employee_roles` table).
 
-Reason: In a real company one person can do more than one job. For example, a
-developer can also be a team lead. If we stored only one role in the employees
-table, we would lose the second role. So I used a separate table called
-`employee_roles` that links employees and roles. Now one employee can have many
-roles, and one role can belong to many employees. The only extra cost is one more
-table to join. If a team needs exactly one "main" role, an `is_primary` flag can be
-added to `employee_roles` later.
+Reason: *(rewrite this in your own words before submitting)* real people hold more than
+one role at once, for example "Developer" and "Team Lead", or someone covering for
+another team. A single `role_id` column would force us to pick one and lose the rest.
+With a separate `employee_roles` table, adding a second role is just one new row, and no
+table changes are needed later when payroll or leave needs to look at all roles.
+The trade-off is one extra table and a slightly more complex query. Teams that need
+exactly one "main" role can add an `is_primary` flag to `employee_roles` later.
 
 ### Soft delete
 Employees and departments have `is_active`. We mark them inactive instead of erasing
@@ -105,6 +105,43 @@ finds a manager's whole team at any depth using a recursive query.
 ### Email
 Emails are unique at the database level. Task 3 (the API) should store them in
 lowercase so `A@x.com` and `a@x.com` are treated as the same person.
+
+## API (Task 3)
+
+Open http://localhost:8000/docs to try every endpoint. The full contract is in
+`docs/api-contract.md` and `docs/openapi.json`.
+
+| Method | Path | What it does |
+|---|---|---|
+| POST | `/departments` | Create a department (do this first, employees need one) |
+| GET | `/departments` | List departments with employee counts |
+| GET | `/departments/{id}/employees` | Employees of a department (paged) |
+| POST | `/employees` | Create an employee |
+| GET | `/employees` | List: `?page=1&size=20&department=Engineering&q=ada` |
+| GET | `/employees/{id}` | One employee |
+| PATCH | `/employees/{id}` | Change some fields |
+| DELETE | `/employees/{id}` | Soft delete (sets `is_active` to false) |
+| GET | `/employees/{id}/team` | Direct reports |
+
+Errors always look like `{"error": {"code": ..., "message": ..., "details": ...}}`.
+
+### How the code is layered
+
+```
+route (app/api/routes)      reads the request, calls a service, returns the result
+  -> service (app/services) all rules: unique email, loop check, soft delete, search
+    -> model (app/models)   tables
+schemas (app/schemas)       the shapes of requests and responses (validation lives here)
+errors (app/core/errors.py) one error format for the whole API
+```
+
+### Design decisions
+- **PATCH, not PUT:** the client sends only the fields that change.
+- **Soft delete:** DELETE sets `is_active=false`. Lists hide inactive people unless
+  `include_inactive=true`. A manager with active reports cannot be deleted.
+- **Search:** `q` matches first name, last name, full name and email, ignoring case.
+  `%` and `_` in the search text are treated as normal characters.
+- **Pages:** every page response includes `total` and `pages`, so screens can draw page numbers.
 
 ## Notes
 - Inside Docker the database host is `db` (the service name), not `localhost`.
