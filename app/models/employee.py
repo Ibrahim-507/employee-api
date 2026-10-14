@@ -14,9 +14,11 @@ from sqlalchemy import (
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base import Base
+from app.models.attendance import AttendanceRecord
 from app.models.department import Department
 from app.models.mixins import TimestampMixin
 from app.models.role import Role, employee_roles
+from app.models.salary import Salary
 
 
 class Employee(TimestampMixin, Base):
@@ -68,6 +70,14 @@ class Employee(TimestampMixin, Base):
     # Many-to-many through employee_roles.
     roles: Mapped[list[Role]] = relationship(
         secondary=employee_roles, back_populates="employees"
+    )
+
+    # Linked records. The database removes them if an employee row is hard-deleted.
+    salaries: Mapped[list[Salary]] = relationship(
+        back_populates="employee", passive_deletes=True
+    )
+    attendance_records: Mapped[list[AttendanceRecord]] = relationship(
+        back_populates="employee", passive_deletes=True
     )
 
     def __repr__(self) -> str:

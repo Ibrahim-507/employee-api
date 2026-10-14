@@ -8,6 +8,8 @@ erDiagram
     EMPLOYEES   ||--o{ EMPLOYEES : "manages (manager_id)"
     EMPLOYEES   ||--o{ EMPLOYEE_ROLES : "holds"
     ROLES       ||--o{ EMPLOYEE_ROLES : "given to"
+    EMPLOYEES   ||--o{ SALARIES : "is paid"
+    EMPLOYEES   ||--o{ ATTENDANCE_RECORDS : "has"
 
     DEPARTMENTS {
         int id PK
@@ -40,6 +42,27 @@ erDiagram
         timestamptz updated_at
     }
 
+    SALARIES {
+        int id PK
+        int employee_id FK "required"
+        numeric monthly_salary "must be > 0"
+        string currency "default INR"
+        date effective_from "unique per employee"
+        timestamptz created_at
+        timestamptz updated_at
+    }
+
+    ATTENDANCE_RECORDS {
+        int id PK
+        int employee_id FK "required"
+        date work_date "unique per employee"
+        string status "present, absent, on_leave, half_day"
+        time check_in
+        time check_out "must be after check_in"
+        timestamptz created_at
+        timestamptz updated_at
+    }
+
     EMPLOYEE_ROLES {
         int employee_id PK, FK
         int role_id PK, FK
@@ -58,4 +81,7 @@ erDiagram
 | Nobody is their own manager | `CHECK (manager_id <> id)` |
 | A manager row that is hard-deleted does not delete their team | `ON DELETE SET NULL` on `manager_id` |
 | The same role cannot be given twice to one person | composite primary key `(employee_id, role_id)` |
+| An employee has one salary row per effective date | unique `(employee_id, effective_from)`, `monthly_salary > 0` |
+| One attendance record per employee per day | unique `(employee_id, work_date)`; status limited to 4 values; check-out after check-in |
+| Salary and attendance rows disappear if the employee row is hard-deleted | `ON DELETE CASCADE` |
 | Searching by name or department is fast | indexes `ix_employees_name`, `ix_employees_department_id`, `ix_employees_manager_id` |

@@ -4,6 +4,10 @@ services:
     ports:
       - "8000:8000"
     env_file: .env
+    volumes:
+      # The data folder is shared with your PC: put the Kaggle CSV in data/raw
+      # and find the exported CSV files in data/exports.
+      - ./data:/code/data
     depends_on:
       db:
         condition: service_healthy

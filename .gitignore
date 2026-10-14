@@ -5,3 +5,7 @@ __pycache__/
 .pytest_cache/
 .idea/
 .vscode/
+
+# The raw Kaggle file is not committed (download it yourself, see docs/dataset.md)
+data/raw/*
+!data/raw/.gitkeep

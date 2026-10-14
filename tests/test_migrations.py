@@ -6,7 +6,9 @@ from sqlalchemy import inspect
 from app.db.base import Base
 from tests.conftest import alembic_config
 
-TABLES = {"departments", "roles", "employees", "employee_roles"}
+TABLES = {
+    "departments", "roles", "employees", "employee_roles", "salaries", "attendance_records",
+}
 
 
 def test_upgrade_creates_tables_and_downgrade_removes_them(engine):

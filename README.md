@@ -14,6 +14,7 @@ app/
   schemas/             # request/response shapes (pydantic)
   db/                  # Base class and database session
 alembic/               # database migrations
+scripts/               # seed and CSV export commands (Task 4)
 tests/                 # pytest tests
 docs/api-contract.md   # draft API contract for other teams
 docs/er-diagram.md     # ER diagram of the database
@@ -142,6 +143,26 @@ errors (app/core/errors.py) one error format for the whole API
 - **Search:** `q` matches first name, last name, full name and email, ignoring case.
   `%` and `_` in the search text are treated as normal characters.
 - **Pages:** every page response includes `total` and `pages`, so screens can draw page numbers.
+
+## Master dataset and seed (Task 4)
+
+Full details: `docs/dataset.md`.
+
+1. Download the Kaggle file (steps in `docs/dataset.md`) into `data/raw/`.
+2. With `docker compose up` running:
+
+```bash
+docker compose exec api alembic upgrade head          # creates the tables (once)
+docker compose exec api python -m scripts.seed        # fills ~300 employees with salaries and attendance
+docker compose exec api python -m scripts.export_csv  # writes data/exports/*.csv
+```
+
+- The data is repeatable: seed `42` always gives the same people.
+- Running `scripts.seed` twice is safe, because existing rows are skipped.
+- `--reset --yes` deletes all employee data and starts clean.
+- To try the pipeline before you download Kaggle, use the small stand-in file made for
+  the tests: `--source tests/fixtures/hr_sample_for_tests.csv --count 100`.
+  (It is synthetic. Do not use it for the final dataset.)
 
 ## Notes
 - Inside Docker the database host is `db` (the service name), not `localhost`.
