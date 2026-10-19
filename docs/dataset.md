@@ -11,7 +11,7 @@ Everyone gets exactly the same data by running one command.
 | Page | https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset |
 | File | `WA_Fn-UseC_-HR-Employee-Attrition.csv` (1,470 rows, 35 columns) |
 | Nature | A **fictional** dataset made by IBM data scientists. It contains no real people. |
-| License | **Copy the license text from the "License" box on the Kaggle page here.** (Public sources describe its terms as loosely specified, so we do not re-host the file in this repository.) |
+| License | As shown on the Kaggle page (checked 14 Oct 2026): Database: Open Database License (ODbL) v1.0, https://opendatacommons.org/licenses/odbl/1-0/ ; Contents: Database Contents License (DbCL) v1.0, https://opendatacommons.org/licenses/dbcl/1-0/ . The raw file is not re-hosted in this repository; download it from the Kaggle page above. |
 
 **How to get it**
 
