@@ -148,6 +148,8 @@ errors (app/core/errors.py) one error format for the whole API
 
 Full details: `docs/dataset.md`.
 
+**Dataset and license:** IBM HR Analytics Employee Attrition and Performance from Kaggle (a fictional dataset, no real people). License as shown on the Kaggle page: Database: Open Database License (ODbL) v1.0; Contents: Database Contents License (DbCL) v1.0, https://opendatacommons.org/licenses/dbcl/1-0/ . The raw file is not stored in this repository.
+
 1. Download the Kaggle file (steps in `docs/dataset.md`) into `data/raw/`.
 2. With `docker compose up` running:
 
